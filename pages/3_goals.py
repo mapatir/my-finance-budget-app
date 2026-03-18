@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 from utils.data import SAVINGS_GOALS, months_to_goal
 
 def hex_to_rgba(hex_color, alpha=0.2):
-        """Convert #RRGGBB to rgba(r,g,b,alpha) for Plotly fillcolor."""
+    """Convert #RRGGBB to rgba(r,g,b,alpha) for Plotly fillcolor."""
     h = hex_color.lstrip("#")
     r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
     return f"rgba({r},{g},{b},{alpha})"
@@ -22,7 +22,6 @@ for name, g in SAVINGS_GOALS.items():
     with col1:
         st.progress(pct, text=f"${g['current']:,.0f} saved of ${g['goal']:,.0f}  ({pct*100:.1f}%)")
 
-        # Projection chart
         bal, projection = g["current"], []
         r = g["apy"] / 12
         for m in range(int(months) + 1):
@@ -54,17 +53,16 @@ for name, g in SAVINGS_GOALS.items():
         st.plotly_chart(fig, use_container_width=True)
 
     with col2:
-        st.metric("Remaining",      f"${needed:,.0f}")
+        st.metric("Remaining",           f"${needed:,.0f}")
         st.metric("Monthly Contribution", f"${g['monthly']:,}")
-        st.metric("APY",            f"{g['apy']*100:.2f}%")
+        st.metric("APY",                 f"{g['apy']*100:.2f}%")
 
     with col3:
         st.metric("Est. Completion", f"{int(months)} months" if months < 600 else "∞")
         import datetime
         eta = datetime.date.today() + datetime.timedelta(days=int(months) * 30.4)
-        st.metric("Target Date",    eta.strftime("%b %Y") if months < 600 else "—")
+        st.metric("Target Date", eta.strftime("%b %Y") if months < 600 else "—")
 
-        # Adjust monthly contribution slider
         new_monthly = st.slider(
             "Adjust monthly contribution",
             min_value=0, max_value=3_000, value=g["monthly"], step=50,
