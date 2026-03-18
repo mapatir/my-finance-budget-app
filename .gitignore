@@ -1,3 +1,4 @@
+venv/
 .env
 plaid_tokens.json
 data/plaid_tokens.json

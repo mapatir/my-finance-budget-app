@@ -2,6 +2,12 @@ import streamlit as st
 import plotly.graph_objects as go
 from utils.data import SAVINGS_GOALS, months_to_goal
 
+def hex_to_rgba(hex_color, alpha=0.2):
+        """Convert #RRGGBB to rgba(r,g,b,alpha) for Plotly fillcolor."""
+    h = hex_color.lstrip("#")
+    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    return f"rgba({r},{g},{b},{alpha})"
+
 st.set_page_config(page_title="Goals", page_icon="🎯", layout="wide")
 st.title("🎯 Savings Goals")
 
@@ -33,7 +39,7 @@ for name, g in SAVINGS_GOALS.items():
         fig.add_trace(go.Scatter(
             x=xs, y=ys, fill="tozeroy",
             line=dict(color=g["color"], width=2),
-            fillcolor=g["color"] + "33",
+            fillcolor=hex_to_rgba(g["color"]),
             name="Projected Balance",
         ))
         fig.add_hline(y=g["goal"], line_dash="dash", line_color="#1F3864",
