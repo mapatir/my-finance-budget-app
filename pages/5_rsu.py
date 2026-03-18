@@ -20,8 +20,8 @@ st.markdown("---")
 
 # ── What it could fund ────────────────────────────────────────────────────────
 st.subheader("What Your Shares Could Fund")
-TAX_RATE = st.slider("Estimated tax rate", min_value=0.15, max_value=0.35, value=0.24, step=0.01,
-                     format="%.0%%")
+tax_pct  = st.slider("Estimated tax rate (%)", min_value=15, max_value=35, value=24, step=1)
+TAX_RATE = tax_pct / 100
 
 scenarios = [
     ("Pay off Apple FCU auto loan",  DEBTS["Apple FCU (Auto)"]["balance"]),
@@ -45,7 +45,7 @@ for name, goal in scenarios:
         "Goal ($)":       goal,
         "Shares to Sell": needed_shares,
         "Gross ($)":      gross,
-        f"Tax ({TAX_RATE*100:.0f}%) ($)": tax,
+        f"Tax ({tax_pct}%) ($)": tax,
         "Net ($)":        net,
         "Status":         funded,
     })
@@ -55,7 +55,7 @@ st.dataframe(
     df.style.format({
         "Goal ($)": "${:,.0f}",
         "Gross ($)": "${:,.0f}",
-        f"Tax ({TAX_RATE*100:.0f}%) ($)": "${:,.0f}",
+        f"Tax ({tax_pct}%) ($)": "${:,.0f}",
         "Net ($)": "${:,.0f}",
     }),
     use_container_width=True,
@@ -75,7 +75,7 @@ remaining_val = remaining * price
 
 c1, c2, c3 = st.columns(3)
 c1.metric("Shares Remaining",  f"{remaining}")
-c2.metric("Net Proceeds",      f"${net_proceeds:,.0f}", f"after {TAX_RATE*100:.0f}% tax")
+c2.metric("Net Proceeds",      f"${net_proceeds:,.0f}", f"after {tax_pct}% tax")
 c3.metric("Remaining Value",   f"${remaining_val:,.0f}")
 
 # Visual breakdown

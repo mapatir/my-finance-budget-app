@@ -51,7 +51,7 @@ with col_left:
             y=[s["Balance"] for s in schedule],
             fill="tozeroy",
             line=dict(color="#EF5350", width=2),
-            fillcolor="#EF535033",
+            fillcolor="rgba(239,83,80,0.2)",
         ))
         fig.update_layout(height=180, margin=dict(t=10, b=20, l=20, r=20),
                           xaxis_title="Months", yaxis_title="Balance ($)",
